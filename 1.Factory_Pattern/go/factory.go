@@ -2,18 +2,14 @@
 
 package factory
 
-import (
-	"fmt"
-)
+import "fmt"
 
 /*
 	1.创建接口
 */
-type Shape interface {
+type IShape interface {
 	Draw()
 }
-
-/************/
 
 /*
 	2.创建实现接口的实体类
@@ -42,22 +38,26 @@ func (r *Rectangle) Draw() {
 	fmt.Println("Draw a [Rectangle].")
 }
 
-/************/
-
 /*
 	3.创建工厂，生成实现接口的实体类的对象
 */
+const (
+	SQUARE = iota
+	CIRCLE
+	RECTANGLE
+)
+
 type ShapeFactory struct {
 }
 
 // 使用getShape方法获取形状类型的对象
-func (sf *ShapeFactory) getShape(shapeType string) Shape {
+func (sf *ShapeFactory) getShape(shapeType int) IShape {
 	switch shapeType {
-	case "SQUARE":
+	case SQUARE:
 		return &Square{}
-	case "CIRCLE":
+	case CIRCLE:
 		return &Circle{}
-	case "RECTANGLE":
+	case RECTANGLE:
 		return &Rectangle{}
 	}
 	return nil
