@@ -53,54 +53,50 @@ type Red struct {
 }
 
 func (r *Red) Fill() {
-	fmt.Println("Fill in [Red] color.")
+	fmt.Println("Fill in [Red].")
 }
+
 // Green类
 type Green struct {
 }
 
 func (g *Green) Fill() {
-	fmt.Println("Fill in [Green] color.")
+	fmt.Println("Fill in [Green].")
 }
+
 // Blue类
 type Blue struct {
 }
 
 func (g *Blue) Fill() {
-	fmt.Println("Fill in [Blue] color.")
+	fmt.Println("Fill in [Blue].")
 }
 
 /*
-	5.抽象工厂接口，能够获取工厂Shape和工厂Color
+	5.抽象工厂接口，各种类型的工厂共享(这里指ShapeFactory和ColorFactory)
 */
 type IAbstractFactory interface {
-	getShape() IShape
-	getColor() IColor
+	getShape(int) IShape
+	getColor(int) IColor
 }
 
 /*
-	6.抽象工厂类
+	6.创建Shape工厂和Color工厂的实体类
 */
-type AbstractFactory struct {
-
-}
-
-func (af *AbstractFactory) getShape(shapeType )
-
 
 const (
-	Shape = iota
-	SQUARE 
+	SHAPE_FACTORY = iota
+	SQUARE
 	CIRCLE
 	RECTANGLE
-	Color
+	COLOR_FACTORY
 	RED
 	GREEN
 	BLUE
 )
 
+/// ShapeFactory类
 type ShapeFactory struct {
-
 }
 
 func (sf *ShapeFactory) getShape(shapeType int) IShape {
@@ -115,8 +111,13 @@ func (sf *ShapeFactory) getShape(shapeType int) IShape {
 	return nil
 }
 
-type ColorFactory struct {
+// 无实义，仅用来保证ShapeFactory实现了IAbstractFactory接口
+func (sf *ShapeFactory) getColor(shapeType int) IColor {
+	return nil
+}
 
+/// ColorFactory类
+type ColorFactory struct {
 }
 
 func (cf *ColorFactory) getColor(colorType int) IColor {
@@ -127,6 +128,29 @@ func (cf *ColorFactory) getColor(colorType int) IColor {
 		return &Green{}
 	case BLUE:
 		return &Blue{}
+	}
+	return nil
+}
+
+// 无实义，仅用来保证ColorFactory实现了IAbstractFactory接口
+func (cf *ColorFactory) getShape(colorType int) IShape {
+	return nil
+}
+
+/*
+	7.建立超级工厂类，用于获取工厂实例
+*/
+type FactoryProducer struct {
+}
+
+func (af *FactoryProducer) getFactory(factoryType int) IAbstractFactory {
+	switch factoryType {
+	case SHAPE_FACTORY:
+		defer fmt.Println("[ShapeFactory] has been built...")
+		return &ShapeFactory{}
+	case COLOR_FACTORY:
+		defer fmt.Println("[ColorFactory] has been built...")
+		return &ColorFactory{}
 	}
 	return nil
 }

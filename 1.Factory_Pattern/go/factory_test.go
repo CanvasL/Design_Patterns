@@ -3,7 +3,7 @@ package factory
 
 import "testing"
 
-func TestDraw(t *testing.T) {
+func TestMain(t *testing.T) {
 	sf := new(ShapeFactory)
 	sf.getShape(CIRCLE).Draw()
 	sf.getShape(RECTANGLE).Draw()

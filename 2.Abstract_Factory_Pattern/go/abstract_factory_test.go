@@ -4,16 +4,16 @@ package abstract_factory
 
 import "testing"
 
-func TestAbstract_Factory(t *testing.T) {
-	var iFactory IAbstractFactory
+func TestMain(t *testing.T) {
+	var factory_producer = new(FactoryProducer)
 
-	iFactory = new(ShapeFactory)
-	iFactory.getShape(RECTANGLE).Draw() 
-	iFactory.getShape(CIRCLE).Draw() 
-	iFactory.getShape(SQUARE).Draw()
-	
-	iFactory = new(ColorFactory)
-	iFactory.getColor(BLUE).FILL()
-	iFactory.getColor(RED).FILL()
-	iFactory.getColor(GREEN).FILL()
+	shape_factory := factory_producer.getFactory(SHAPE_FACTORY)
+	shape_factory.getShape(RECTANGLE).Draw()
+	shape_factory.getShape(CIRCLE).Draw()
+	shape_factory.getShape(SQUARE).Draw()
+
+	color_factory := factory_producer.getFactory(COLOR_FACTORY)
+	color_factory.getColor(BLUE).Fill()
+	color_factory.getColor(RED).Fill()
+	color_factory.getColor(GREEN).Fill()
 }

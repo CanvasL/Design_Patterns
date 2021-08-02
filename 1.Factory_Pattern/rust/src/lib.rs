@@ -1,38 +1,29 @@
 /*
     1.创建trait
 */
-pub trait Shape {
+pub trait IShape {
     fn draw(&self);
 }
 
 /*
     2.创建实现trait的实体类
 */
-struct Square {
-
-}
-
-impl Shape for Square {
+struct Square {}
+impl IShape for Square {
     fn draw(&self) {
         println!("Draw a [Square].");
     }
 }
 
-struct Circle {
-    
-}
-
-impl Shape for Circle {
+struct Circle {}
+impl IShape for Circle {
     fn draw(&self) {
         println!("Draw a [Circle].");
     }
 }
 
-struct Rectangle {
-
-}
-
-impl Shape for Rectangle {
+struct Rectangle {}
+impl IShape for Rectangle {
     fn draw(&self) {
         println!("Draw a [Rectangle].");
     }
@@ -47,16 +38,14 @@ enum ShapeType {
     Rectangle
 }
 
-struct ShapeFactory {
-
-}
+struct ShapeFactory {}
 
 impl ShapeFactory {
     fn new() -> Self{
         ShapeFactory{}
     }
 
-    fn get_shape(&self, shape_type: &ShapeType) -> Box<dyn Shape> {
+    fn get_shape(&self, shape_type: &ShapeType) -> Box<dyn IShape> {
         match shape_type {
             ShapeType::Square => Box::new(Square {}),
             ShapeType::Circle => Box::new(Circle {}),
